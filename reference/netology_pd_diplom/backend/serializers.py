@@ -87,3 +87,35 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ('id', 'ordered_items', 'state', 'dt', 'total_sum', 'contact',)
         read_only_fields = ('id',)
+
+
+class ProductParameterExportSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProductParameter
+        # fields = ('dict',)
+        fields = ('parameter.name', 'value',)
+
+class ProductInfoExportSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source='product.category.name')
+    name = serializers.CharField(source='product.name')
+    parameters = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProductInfo
+        fields = ('id', 'category', 'model', 'name', 'price', 'price_rrc', 'quantity', 'parameters',)
+        read_only_fields = ('id',)
+    
+    def get_parameters(self, obj):
+        return [{param.parameter.name: param.value} for param in obj.product_parameters.all()]
+
+
+class ShopExportSerializer(serializers.ModelSerializer):
+    shop = serializers.CharField(source='name')
+    categories = CategorySerializer(read_only=True, many=True)
+    goods = ProductInfoExportSerializer(source='product_infos', read_only=True, many=True)
+
+    class Meta:
+        model = Shop
+        # fields = ('shop_name',) + ShopSerializer.Meta.fields + ('categories', 'product_infos')
+        fields = ('shop', 'categories', 'goods')

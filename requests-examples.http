@@ -1,0 +1,148 @@
+# примеры API-запросов
+
+@baseUrl = http://localhost:8000/api/v1
+
+###
+
+# регистрация пользователя
+POST {{baseUrl}}/user/register
+Content-Type: application/json
+
+{
+    "first_name": "test first name 3", 
+    "last_name": "test last name 3", 
+    "email": "test3@mail.ru", 
+    "password": "TestP@ss3", 
+    "company": "company3", 
+    "position": "position3"
+}
+
+###
+
+# подтверждения email пользователя
+POST {{baseUrl}}/user/register/confirm
+Content-Type: application/json
+
+{
+    "email": "test3@mail.ru", 
+    "token": "bf41c61d6d449099b"
+}
+
+###
+
+# авторизация пользователя
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+    "email": "test3@mail.ru", 
+    "password": "TestP@ss3"
+}
+
+###
+
+# получить список магазинов
+GET {{baseUrl}}/shops
+Content-Type: application/json
+
+###
+
+# получить список категорий
+GET {{baseUrl}}/categories
+Content-Type: application/json
+
+###
+
+# получить список товаров
+GET {{baseUrl}}/products
+Content-Type: application/json
+
+###
+
+# получить корзину
+# (необходимо авторизоваться и передавать токен пользователя)
+GET {{baseUrl}}/basket
+Content-Type: application/json
+Authorization: token b2da999682c6403e486a2fa7e115012fdfe02f3a
+
+###
+
+# получить список заказов
+# (необходимо авторизоваться и передавать токен пользователя)
+GET {{baseUrl}}/order
+Content-Type: application/json
+Authorization: token b2da999682c6403e486a2fa7e115012fdfe02f3a
+
+###
+
+# регистрация пользователя-магазина
+POST {{baseUrl}}/user/register
+Content-Type: application/json
+
+{
+    "first_name": "test shop #1 first name", 
+    "last_name": "test shop #1 first name", 
+    "email": "test@mail.ru", 
+    "password": "ShopP@ss1", 
+    "company": "supermegashop #1", 
+    "position": "shop manager"
+}
+
+###
+
+# подтверждения email пользователя
+POST {{baseUrl}}/user/register/confirm
+Content-Type: application/json
+
+{
+    "email": "test@mail.ru", 
+    "token": "6270cce9aaecea955c87503"
+}
+
+###
+
+# авторизация пользователя
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+    "email": "test@mail.ru", 
+    "password": "ShopP@ss1"
+}
+
+###
+
+# получить заказы поставщика
+# (необходимо авторизоваться и передавать токен пользователя;
+# требуемый тип пользователя - магазин)
+GET {{baseUrl}}/partner/orders
+Content-Type: application/json
+Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
+
+###
+
+# импорт товаров
+# (необходимо авторизоваться и передавать токен пользователя;
+# требуемый тип пользователя - магазин)
+POST {{baseUrl}}/partner/update
+Content-Type: application/json
+Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
+
+{
+    "url": "https://raw.githubusercontent.com/bku4erov/py-diplom/master/data/shop1.yaml"
+}
+
+###
+
+# получить статус поставщика
+# (необходимо авторизоваться и передавать токен пользователя;
+# требуемый тип пользователя - магазин)
+GET {{baseUrl}}/partner/state
+Content-Type: application/json
+Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
+
+###
+
+GET {{baseUrl}}/partner/export
+Content-Type: application/json
+Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
