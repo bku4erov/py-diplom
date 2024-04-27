@@ -9,12 +9,12 @@ POST {{baseUrl}}/user/register
 Content-Type: application/json
 
 {
-    "first_name": "test first name 3", 
-    "last_name": "test last name 3", 
-    "email": "test3@mail.ru", 
-    "password": "TestP@ss3", 
-    "company": "company3", 
-    "position": "position3"
+    "first_name": "The first user name", 
+    "last_name": "The first user surname", 
+    "email": "pydiplom2024-1@mail.ru", 
+    "password": "TestP@ss2024", 
+    "company": "The best company ever", 
+    "position": "The greatest position"
 }
 
 ###
@@ -24,8 +24,8 @@ POST {{baseUrl}}/user/register/confirm
 Content-Type: application/json
 
 {
-    "email": "test3@mail.ru", 
-    "token": "bf41c61d6d449099b"
+    "email": "pydiplom2024-1@mail.ru", 
+    "token": "be44ceebe6629bd"
 }
 
 ###
