@@ -27,6 +27,7 @@ def password_reset_token_created(sender, instance, reset_password_token, **kwarg
     """    
     # отправить на эл.почту пользователя письмо для сброса пароля
     # отправка осуществляется асинхронно через celery
+    # отправка только после фиксации транзакции (commit'a)
 
     send_email.delay_on_commit(
             title=f"Password Reset Token for {reset_password_token.user}",
@@ -44,6 +45,7 @@ def new_user_registered_signal(sender: Type[User], instance: User, created: bool
     if created and not instance.is_active:
         # отправить на эл.почту пользователя письмо с подтверждением почты
         # отправка осуществляется асинхронно через celery
+        # отправка только после фиксации транзакции (commit'a)
 
         token, _ = ConfirmEmailToken.objects.get_or_create(user_id=instance.pk)
 
@@ -62,6 +64,7 @@ def new_order_signal(user_id, **kwargs):
     """
     # отправить на эл.почту пользователя письмо при изменении статуса заказа
     # отправка осуществляется асинхронно через celery
+    # отправка только после фиксации транзакции (commit'a)
 
     user = User.objects.get(id=user_id)
 
