@@ -82,7 +82,7 @@ Content-Type: application/json
 {
     "first_name": "test shop #1 first name", 
     "last_name": "test shop #1 first name", 
-    "email": "test@mail.ru", 
+    "email": "pydiplom2024@mail.ru", 
     "password": "ShopP@ss1", 
     "company": "supermegashop #1", 
     "position": "shop manager"
@@ -95,8 +95,8 @@ POST {{baseUrl}}/user/register/confirm
 Content-Type: application/json
 
 {
-    "email": "test@mail.ru", 
-    "token": "6270cce9aaecea955c87503"
+    "email": "pydiplom2024@mail.ru", 
+    "token": "db4c0cf07ec121305e40414d9152ee13a6"
 }
 
 ###
@@ -106,7 +106,7 @@ POST {{baseUrl}}/user/login
 Content-Type: application/json
 
 {
-    "email": "test@mail.ru", 
+    "email": "pydiplom2024@mail.ru", 
     "password": "ShopP@ss1"
 }
 
@@ -126,7 +126,7 @@ Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
 # требуемый тип пользователя - магазин)
 POST {{baseUrl}}/partner/update
 Content-Type: application/json
-Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
+Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
 
 {
     "url": "https://raw.githubusercontent.com/bku4erov/py-diplom/master/data/shop1.yaml"
