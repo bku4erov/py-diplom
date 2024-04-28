@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
+from django.conf import settings
 from django.db import IntegrityError
 from django.db.models import Q, Sum, F
 from django.http import JsonResponse
@@ -18,11 +19,11 @@ from ujson import loads as load_json
 from yaml import load as load_yaml, Loader
 
 from backend.models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter, Order, OrderItem, \
-    Contact, ConfirmEmailToken
+    Contact, ConfirmEmailToken, STATE_CHOICES
 from backend.serializers import UserSerializer, CategorySerializer, ShopSerializer, ProductInfoSerializer, \
     OrderItemSerializer, OrderSerializer, ContactSerializer, ShopExportSerializer
 from backend.signals import new_user_registered, new_order
-from backend.tasks import update_partner_info, export_partner_info
+from backend.tasks import update_partner_info, export_partner_info, send_email
 from netology_pd_diplom.celery import get_task
 
 
@@ -533,6 +534,37 @@ class PartnerOrders(APIView):
 
         serializer = OrderSerializer(order, many=True)
         return Response(serializer.data)
+    
+    # обновить статус заказа
+    def put(self, request, *args, **kwargs):
+        
+        if not request.user.is_authenticated:
+            return JsonResponse({'Status': False, 'Error': 'Log in required'}, status=403)
+
+        if request.user.type != 'shop':
+            return JsonResponse({'Status': False, 'Error': 'Только для магазинов'}, status=403)
+        
+        if not {'id', 'state'}.issubset(request.data):
+            return JsonResponse({'Status': False, 'Errors': 'Не указаны все необходимые аргументы'})
+
+        order_id = request.data.get('id')
+        new_state = request.data.get('state')
+        if new_state:
+            if not (any(new_state == state[0] for state in STATE_CHOICES) and new_state != 'basket'):
+                return JsonResponse({'Status': False, 'Errors': 'Указан недопустимый статус заказа'})
+        
+        order = Order.objects.filter(id=order_id).first()
+        order.state = new_state
+        order.save()
+
+        send_email.delay_on_commit(
+            title=f'Обновление статуса заказа № {order_id}',
+            message=f'Новый статуса заказа: {dict(STATE_CHOICES).get(order.state)}',
+            sender=settings.EMAIL_HOST_USER,
+            recipients=[order.user.email],
+        )
+
+        return JsonResponse({'Status': True})
 
 
 class ContactView(APIView):
