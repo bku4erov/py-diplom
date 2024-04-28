@@ -7,6 +7,7 @@ from django.core.validators import URLValidator
 from django.db import IntegrityError
 from django.db.models import Q, Sum, F
 from django.http import JsonResponse
+from django.urls import reverse
 from requests import get
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView
@@ -21,7 +22,8 @@ from backend.models import Shop, Category, Product, ProductInfo, Parameter, Prod
 from backend.serializers import UserSerializer, CategorySerializer, ShopSerializer, ProductInfoSerializer, \
     OrderItemSerializer, OrderSerializer, ContactSerializer, ShopExportSerializer
 from backend.signals import new_user_registered, new_order
-from backend.tasks import update_partner_info
+from backend.tasks import update_partner_info, export_partner_info
+from netology_pd_diplom.celery import get_task
 
 
 class RegisterAccount(APIView):
@@ -728,6 +730,24 @@ class PartnerExport(APIView):
         if request.user.type != 'shop':
             return JsonResponse({'Status': False, 'Error': 'Только для магазинов'}, status=403)
         
-        shop = request.user.shop
-        serializer = ShopExportSerializer(shop)
-        return Response(serializer.data)
+        task = export_partner_info.delay(request.user.id)
+
+        return JsonResponse({'Status': True, 'task_id': task.task_id, 'url': reverse('backend:task-result')})
+
+
+class TaskResultView(APIView):
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'Status': False, 'Error': 'Log in required'}, status=403)
+        if not {'task_id',}.issubset(request.data):
+            return JsonResponse({'Status': False, 'Errors': 'Не указаны все необходимые аргументы'})
+        
+        try:
+            task = get_task(request.data['task_id'])
+        except:
+            return JsonResponse({'Status': False, 'Errors': 'Задача не найдена'})
+        
+        if task.state == 'SUCCESS':
+            return JsonResponse({'Status': True, 'Task state': task.state, 'Result': task.result})
+        else:
+            return JsonResponse({'Status': True, 'Task state': task.state, 'Result': str(task.result)})

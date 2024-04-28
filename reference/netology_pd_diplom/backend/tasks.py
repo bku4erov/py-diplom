@@ -4,6 +4,7 @@ from django.core.mail import EmailMultiAlternatives
 from yaml import load as load_yaml, Loader
 
 from backend.models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter
+from backend.serializers import ShopExportSerializer
 
 @shared_task(base=DjangoTask)
 def send_email(title, message, sender, recipients):
@@ -49,3 +50,11 @@ def update_partner_info(stream, user_id):
             ProductParameter.objects.create(product_info_id=product_info.id,
                                                         parameter_id=parameter_object.id,
                                                         value=value)
+
+
+@shared_task
+def export_partner_info(user_id):
+
+    shop = Shop.objects.filter(user_id=user_id).first()
+    serializer = ShopExportSerializer(shop)
+    return serializer.data

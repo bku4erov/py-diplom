@@ -145,4 +145,24 @@ Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
 
 GET {{baseUrl}}/partner/export
 Content-Type: application/json
-Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
+Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
+
+###
+
+GET {{baseUrl}}/task_result
+Content-Type: application/json
+Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
+
+{
+    "task_id": "932a3132-231f-41f9-b30e-7514039e16db"
+}
+
+###
+
+GET {{baseUrl}}/task_result
+Content-Type: application/json
+Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
+
+{
+    "task_id": "769558f3-a793-497e-a840-599f1e028359"
+}
