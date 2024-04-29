@@ -25,7 +25,7 @@ Content-Type: application/json
 
 {
     "email": "pydiplom2024-1@mail.ru", 
-    "token": "be44ceebe6629bd"
+    "token": "bbecdd640127bdd2d3e56b61"
 }
 
 ###
@@ -35,8 +35,8 @@ POST {{baseUrl}}/user/login
 Content-Type: application/json
 
 {
-    "email": "test3@mail.ru", 
-    "password": "TestP@ss3"
+    "email": "pydiplom2024-3@mail.ru", 
+    "password": "qwer1234A"
 }
 
 ###
@@ -63,7 +63,7 @@ Content-Type: application/json
 # (необходимо авторизоваться и передавать токен пользователя)
 GET {{baseUrl}}/basket
 Content-Type: application/json
-Authorization: token b2da999682c6403e486a2fa7e115012fdfe02f3a
+Authorization: token ede153e5ca3eec0962f30355e4fe6f60906cf692
 
 ###
 
@@ -71,7 +71,7 @@ Authorization: token b2da999682c6403e486a2fa7e115012fdfe02f3a
 # (необходимо авторизоваться и передавать токен пользователя)
 GET {{baseUrl}}/order
 Content-Type: application/json
-Authorization: token b2da999682c6403e486a2fa7e115012fdfe02f3a
+Authorization: token ede153e5ca3eec0962f30355e4fe6f60906cf692
 
 ###
 
@@ -117,7 +117,7 @@ Content-Type: application/json
 # требуемый тип пользователя - магазин)
 GET {{baseUrl}}/partner/orders
 Content-Type: application/json
-Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
+Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
 
 ###
 
@@ -126,7 +126,7 @@ Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
 # требуемый тип пользователя - магазин)
 POST {{baseUrl}}/partner/update
 Content-Type: application/json
-Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
+Authorization: token 4e34dbd34f96f1c64fe67a7a2623dbb22df950f3
 
 {
     "url": "https://raw.githubusercontent.com/bku4erov/py-diplom/master/data/shop1.yaml"
@@ -164,5 +164,5 @@ Content-Type: application/json
 Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
 
 {
-    "task_id": "769558f3-a793-497e-a840-599f1e028359"
+    "task_id": "dac5bf5c-648e-4e58-ac29-5fef2a54b5e2"
 }

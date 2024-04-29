@@ -167,6 +167,9 @@ class ProductInfo(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['product', 'shop', 'external_id'], name='unique_product_info'),
         ]
+    
+    def __str__(self):
+        return self.product.name
 
 
 class Parameter(models.Model):
@@ -243,6 +246,12 @@ class Order(models.Model):
     # @property
     # def sum(self):
     #     return self.ordered_items.aggregate(total=Sum("quantity"))["total"]
+
+class OrderByShop(Order):
+    class Meta:
+        proxy = True
+        verbose_name = 'Заказ магазина'
+        verbose_name_plural = 'Список заказов магазинов'
 
 
 class OrderItem(models.Model):
