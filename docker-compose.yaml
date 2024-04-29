@@ -1,5 +1,24 @@
 version: '3.9'
 
+x-env-db: &db-env
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DB: ${POSTGRES_DB}
+
+x-env-db-client: &db-env-client
+  POSTGRES_HOST: ${POSTGRES_HOST}
+  POSTGRES_PORT: ${POSTGRES_PORT}
+
+x-env-email: &email-env
+  EMAIL_HOST: ${EMAIL_HOST}
+  EMAIL_USER: ${EMAIL_USER}
+  EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+  EMAIL_PORT: ${EMAIL_PORT}
+
+x-env-celery: &celery-env
+  CELERY_BROKER_URL: ${CELERY_BROKER_URL}
+  CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND}
+
 volumes:
   db-data:
 
@@ -12,13 +31,10 @@ services:
     ports:
       - "6379:6379"
  
- 
   db:
     image: postgres:16.2-alpine3.19
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      <<: *db-env
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - db-data:/var/lib/postgresql/data
@@ -31,3 +47,34 @@ services:
     restart: unless-stopped
     ports:
       - "5432:5432"
+  
+  app:
+    build: /reference/netology_pd_diplom
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      <<: [*db-env, *db-env-client, *email-env, *celery-env]
+    depends_on:
+      - db
+      - celery_worker
+  
+  celery_worker:
+    build: /reference/netology_pd_diplom
+    command: celery -A netology_pd_diplom worker -l INFO
+    environment:
+      <<: [*db-env, *db-env-client, *email-env, *celery-env]
+    depends_on:
+      - redis
+      - db
+    
+  celery_flower:
+    build: /reference/netology_pd_diplom
+    command: celery -A netology_pd_diplom flower -l INFO 
+    ports:
+      - "5555:5555"
+    environment:
+      <<: [*db-env, *db-env-client, *email-env, *celery-env]
+    depends_on:
+      - redis
+      - db

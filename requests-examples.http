@@ -35,8 +35,18 @@ POST {{baseUrl}}/user/login
 Content-Type: application/json
 
 {
-    "email": "pydiplom2024-3@mail.ru", 
-    "password": "qwer1234A"
+    "email": "pydiplom2024-1@mail.ru", 
+    "password": "TestP@ss2024"
+}
+
+###
+
+# сброс пароля пользователя
+POST {{baseUrl}}/user/password_reset
+Content-Type: application/json
+
+{
+    "email": "pydiplom2024-1@mail.ru"
 }
 
 ###
