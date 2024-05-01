@@ -118,5 +118,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# VSCode workspaces
+# VSCode settings
 *.code-workspace
+.vscode/
