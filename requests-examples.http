@@ -149,7 +149,7 @@ Authorization: token 4e34dbd34f96f1c64fe67a7a2623dbb22df950f3
 # требуемый тип пользователя - магазин)
 GET {{baseUrl}}/partner/state
 Content-Type: application/json
-Authorization: token cf58a734de1cefdb3ac63731e7bae5fccead7aa0
+Authorization: token 4e34dbd34f96f1c64fe67a7a2623dbb22df950f3
 
 ###
 
