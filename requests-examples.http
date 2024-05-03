@@ -176,3 +176,39 @@ Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
 {
     "task_id": "dac5bf5c-648e-4e58-ac29-5fef2a54b5e2"
 }
+
+###
+
+# получить список контактов
+GET {{baseUrl}}/user/contact
+Content-Type: application/json
+Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
+
+###
+
+# получить список контактов
+GET {{baseUrl}}/user/details
+Content-Type: application/json
+Authorization: token 41db54e95dccfd6251f8ccc62e91118913b49545
+
+###
+
+# сброс пароля
+POST {{baseUrl}}/user/password_reset
+Content-Type: application/json
+
+{
+    "email": "pydiplom2024-1@mail.ru"
+}
+
+###
+
+# подтверждение сброса пароля
+POST {{baseUrl}}/user/password_reset/confirm
+Content-Type: application/json
+
+{
+    "email": "pydiplom2024-1@mail.ru",
+    "password": "Qwerty123",
+    "token": "sometoken"
+}
