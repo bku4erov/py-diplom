@@ -24,7 +24,7 @@ https://web.postman.co/workspace/85e82d55-d4e7-4e46-968e-3e76e79dd279/documentat
 https://web.postman.co/workspace/85e82d55-d4e7-4e46-968e-3e76e79dd279
 
 
-### Инструкцию для сборки docker-образа:
+### Инструкция для сборки docker-образа:
 
 #### 1. Клонировать данный git-репозиторий:
 
