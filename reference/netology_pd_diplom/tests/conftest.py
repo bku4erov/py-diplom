@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from model_bakery import baker
 from rest_framework.authtoken.models import Token
 from backend.models import User, Category, Shop, OrderItem, ProductInfo, \
-    Order, Product, Category, Parameter, ProductParameter
+    Order, Product, Category, Parameter, ProductParameter, Contact
 
 
 USER_DATA = {
@@ -96,6 +96,13 @@ def product_parameter_factory():
 
 
 @pytest.fixture
+def contact_factory():
+    def factory(**kwargs):
+        return baker.make('backend.Contact', **kwargs)
+    return factory
+
+
+@pytest.fixture
 def user_buyer():
     user = User.objects.create_user(email='pydiplom2024-1@mail.ru', is_active=True, **USER_DATA)
     user.type = 'buyer'
@@ -154,3 +161,12 @@ def orders_for_shop(user_buyer, products_for_shop, order_factory, order_item_fac
         for product in products_for_shop:
             order_item_factory(order=order, product_info=product.product_infos.first(), quantity=1)
     return orders
+
+
+@pytest.fixture
+def basket(user_buyer, products_for_shop, order_factory, order_item_factory, contact_factory):
+    contact = contact_factory(user=user_buyer)
+    basket = order_factory(user=user_buyer, contact=contact, state='basket')    
+    for product in products_for_shop:
+        order_item_factory(order=basket, product_info=product.product_infos.first(), quantity=1)
+    return basket
