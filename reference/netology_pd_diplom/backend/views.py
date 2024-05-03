@@ -448,6 +448,7 @@ class PartnerState(APIView):
 
        Methods:
        - get: Retrieve the state of the partner.
+       - post: Update the state of a partner.
 
        Attributes:
        - None
@@ -505,6 +506,7 @@ class PartnerOrders(APIView):
     Класс для получения заказов поставщиками
      Methods:
     - get: Retrieve the orders associated with the authenticated partner.
+    - put: Update the order's state associated with the authenticated partner.
 
     Attributes:
     - None
@@ -752,9 +754,27 @@ class OrderView(APIView):
 
 
 class PartnerExport(APIView):
+    """
+    A class to export partner's product catalog to YAML format.
+    Methods:
+    - get: export partner's information
+
+    Attributes:
+    - None
+    """
+
     renderer_classes = [YAMLRenderer]
 
     def get(self, request, *args, **kwargs):
+        """
+            Export the partner price list information.
+
+            Args:
+            - request (Request): The Django request object.
+
+            Returns:
+            - JsonResponse: The response indicating the task ID to obtain the the status of task, its state, and the result
+        """
         
         if not request.user.is_authenticated:
             return JsonResponse({'Status': False, 'Error': 'Log in required'}, status=403)
@@ -768,7 +788,36 @@ class PartnerExport(APIView):
 
 
 class TaskResultView(APIView):
+    """
+        Retrieves the result of a task based on the provided task ID.
+
+        Args:
+            request (Request): The Django request object.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            JsonResponse: The response indicating the status of the task, its state, and the result.
+
+
+        Notes:
+            - This method assumes that the request object has an authenticated user.
+            - The request data must contain a 'task_id' key.
+            - If the task is found and is in the 'SUCCESS' state, the result is returned as a string.
+            - If the task is not found or is not in the 'SUCCESS' state, the result is returned as a string representation of the result object.
+    """
+    
     def get(self, request, *args, **kwargs):
+        """
+            Retrives the result of a task based on the provided task ID.
+
+            Args:
+            - request (Request): The Django request object (tsk id should be provided)
+
+            Returns:
+            - JsonResponse: The response indicating the status of the task, its state, and the result.
+        """
+        
         if not request.user.is_authenticated:
             return JsonResponse({'Status': False, 'Error': 'Log in required'}, status=403)
         if not {'task_id',}.issubset(request.data):
