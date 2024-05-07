@@ -75,13 +75,6 @@ def product_info_factory():
 
 
 @pytest.fixture
-def category_factory():
-    def factory(**kwargs):
-        return baker.make('backend.Category', **kwargs)
-    return factory
-
-
-@pytest.fixture
 def parameter_factory():
     def factory(**kwargs):
         return baker.make('backend.Parameter', **kwargs)

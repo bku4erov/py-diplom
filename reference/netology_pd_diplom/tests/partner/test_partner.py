@@ -38,7 +38,7 @@ def test_partner_update(api_client, token, expected_status, request):
                              (None, status.HTTP_403_FORBIDDEN),
                          ))
 @pytest.mark.django_db
-def test_partner_state(api_client, token, expected_status, request):
+def test_partner_state_get(api_client, token, expected_status, request):
     url = reverse('backend:partner-state')
     if token:
         api_client.credentials(HTTP_AUTHORIZATION='Token ' + request.getfixturevalue(token).key)
@@ -60,7 +60,7 @@ def test_partner_state(api_client, token, expected_status, request):
                              (None, status.HTTP_403_FORBIDDEN),
                          ))
 @pytest.mark.django_db
-def test_partner_state(api_client, token, expected_status, request):
+def test_partner_state_post(api_client, token, expected_status, request):
     url = reverse('backend:partner-state')
     if token:
         api_client.credentials(HTTP_AUTHORIZATION='Token ' + request.getfixturevalue(token).key)
@@ -85,7 +85,7 @@ def test_partner_state(api_client, token, expected_status, request):
                              (None, status.HTTP_403_FORBIDDEN),
                          ))
 @pytest.mark.django_db
-def test_partner_orders(api_client, orders_for_shop, token, expected_status, request):
+def test_partner_orders_get(api_client, orders_for_shop, token, expected_status, request):
     url = reverse('backend:partner-orders')
     if token:
         api_client.credentials(HTTP_AUTHORIZATION='Token ' + request.getfixturevalue(token).key)
@@ -109,7 +109,7 @@ def test_partner_orders(api_client, orders_for_shop, token, expected_status, req
                              (None, status.HTTP_403_FORBIDDEN),
                          ))
 @pytest.mark.django_db
-def test_partner_orders(api_client, orders_for_shop, token, expected_status, request):
+def test_partner_orders_post(api_client, orders_for_shop, token, expected_status, request):
     url = reverse('backend:partner-orders')
     if token:
         api_client.credentials(HTTP_AUTHORIZATION='Token ' + request.getfixturevalue(token).key)
