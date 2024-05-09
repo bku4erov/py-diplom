@@ -15,13 +15,11 @@
 
 Для демонстрации работы приложения доработан проект описания и тестирования REST API в Postman
 
-Документация REST API в Postman доступна по следующей ссылке:
+Материалы по REST API в Postman доступны по следующей ссылке:
 
-https://web.postman.co/workspace/85e82d55-d4e7-4e46-968e-3e76e79dd279/documentation/34578218-33690870-3589-448f-b1ca-e695a1e7d8bb
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/34819378-527f76fd-8572-4217-af30-a0c2a7231564?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D34819378-527f76fd-8572-4217-af30-a0c2a7231564%26entityType%3Dcollection%26workspaceId%3D766363ce-3876-40d8-8b11-9f76d182868d)
 
- Проект описания и тестирования REST API в Postman экспортирован в JSON-файл "netology-pd-diplom.postman_collection.json" данного репозитория, а также доступен по следующей ссылке:
-
-https://web.postman.co/workspace/85e82d55-d4e7-4e46-968e-3e76e79dd279
+Кроме того, коллекция запросов к REST API в Postman экспортирована в JSON-файл [netology-pd-diplom.postman_collection.json](netology-pd-diplom.postman_collection.json) и представлена в данном репозитории.
 
 
 ### Инструкция для сборки docker-образа:
