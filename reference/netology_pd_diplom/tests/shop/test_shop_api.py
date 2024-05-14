@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from backend.models import User, Shop, Product, ProductInfo, Order, OrderItem
 from backend.serializers import ProductInfoSerializer
-from reference.netology_pd_diplom.tests.conftest import category_factory, shop_factory
 
 # получение списка категорий
 @pytest.mark.django_db

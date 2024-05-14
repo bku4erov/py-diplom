@@ -3,7 +3,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.response import Response
 from backend.models import User, ConfirmEmailToken, Contact
-from reference.netology_pd_diplom.tests.conftest import USER_DATA
+import os
+from conftest import USER_DATA
 
 
 # регистрация пользователя
